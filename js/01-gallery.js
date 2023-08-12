@@ -25,19 +25,19 @@ function createGalleryItem({ preview, original, description }) {
   return listItem;
 }
 
-galleryItems.forEach((item) => {
-  const galleryItem = createGalleryItem(item);
-  galleryList.appendChild(galleryItem);
-});
+const galleryItemsMarkup = galleryItems.map(createGalleryItem);
+galleryList.append(...galleryItemsMarkup);
 
 galleryList.addEventListener("click", (event) => {
   event.preventDefault();
 
   const target = event.target;
-  if (target.classList.contains("gallery__image")) {
-    const largeImageUrl = target.dataset.source;
-    openModal(largeImageUrl);
+  if (target.tagName !== "IMG") {
+    return;
   }
+
+  const largeImageUrl = target.dataset.source;
+  openModal(largeImageUrl);
 });
 
 function openModal(url) {

@@ -24,10 +24,26 @@ function createGalleryItem({ preview, original, description }) {
   return listItem;
 }
 
-galleryItems.forEach((item) => {
-  const galleryItem = createGalleryItem(item);
-  galleryList.appendChild(galleryItem);
+const galleryItemsMarkup = galleryItems.map(createGalleryItem);
+galleryList.append(...galleryItemsMarkup);
+
+galleryList.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  if (event.target.tagName !== "IMG") {
+    return;
+  }
+
+  const largeImageUrl = event.target.dataset.source;
+  openModal(largeImageUrl);
 });
+
+// function openModal(url) {
+//   const instance = basicLightbox.create(
+//     `<img src="${url}" width="800" height="600">`
+//   );
+//   instance.show();
+// }
 
 const lightbox = new SimpleLightbox(".gallery__link", {
   captionsData: "alt",
